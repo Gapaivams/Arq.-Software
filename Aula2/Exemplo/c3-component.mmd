@@ -1,0 +1,11 @@
+flowchart TD
+    subgraph TD["Api"]
+        Catalog["Catalogo<br>listar e buscar livros"]
+        Loan["Emprestimo<br>empresta e devolve livros"]
+        Notification["Notificação<br>monitora e notifica prazo"]
+    end
+    Email["Disparador de e-mails"]
+
+    Loan -->|cosulta|Catalog
+    Loan -->|aciona|Notification
+    Notification -->|chama|Email

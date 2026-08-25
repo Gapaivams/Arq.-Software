@@ -1,0 +1,27 @@
+flowchart TD
+    Manager(["Gerente<br>Cadastra e remove produtos"])
+    Seller(["Vendedor<br>Registra pedidos"])
+    Stockist(["Estoquista<br>Registro de entradas e saidas"])
+
+    subgraph System["Sistema de Vendas"]
+        subgraph Apps["Apresentação"]
+            App["App do vendedor"]
+            Backoffice["App do gerente e do estoquista"]
+        end
+
+        subgraph Dominio["Dominio"]
+            Server["API"]
+
+            subgraph Data["Dados"]
+                Database[("Banco de dados")]
+            end
+        end
+    end 
+
+
+    Seller --->|registra pedido| App
+    Manager --->|Cadastra e remove produtos| Backoffice
+    Stockist --->|Registrar entradas e saidas| Backoffice
+    Server --->|Registra no Banco| Database
+    App --->|chama api| Server
+    Backoffice --->|chama api| Server

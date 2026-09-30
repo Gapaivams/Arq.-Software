@@ -1,0 +1,7 @@
+flowchart TD
+    Inicio(( )) --> A[Recebe quantidade]
+    A --> B{quantidade > 0}
+    B -- [sim] --> C[Atualiza valor]
+    B -- [não] --> D[Devolve erro]
+    C --> Fim(( ))
+    D --> Fim

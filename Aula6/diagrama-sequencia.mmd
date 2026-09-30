@@ -1,0 +1,12 @@
+sequenceDiagram
+    actor Usuário
+    participant Controller
+    participant Service
+    participant Repository
+
+    Usuário->>Controller: PUT /stock
+    Controller->>Service: change quantity(stock)
+    Service->>Repository: save(stock)
+    Repository-->>Service: Stock
+    Service-->>Controller: Stock
+    Controller-->>Usuário: redirect /stock

@@ -1,0 +1,6 @@
+stateDiagram-v2
+    [*] --> INDISPONIVEL
+    INDISPONIVEL --> DISPONIVEL : adicionar()[estoque > 1] 
+    DISPONIVEL --> INDISPONIVEL : retirar()[estoque == 0] 
+    INDISPONIVEL --> DESCONTINUADO : descontinuar() / attVendedor()
+    DESCONTINUADO --> [*]

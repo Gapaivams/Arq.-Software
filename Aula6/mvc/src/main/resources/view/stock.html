@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Estoque</title>
+</head>
+
+<body>
+    <header>
+        <h1>Estoque</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Novo Estoque</h2>
+            <form th:action="@{/stock}" th:object="${stock}" method="POST">
+                <div>
+                    <label for="product">Produto:</label>
+                    <input id="product" type="text" th:field="*{product}">
+                </div>
+                <div>
+                    <label for="quantity">Quantidade:</label>
+                    <input id="quantity" type="number" th:field="*{quantity}">
+                </div>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Estoque Cadastrado</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="stock : ${stocks}">
+                        <td th:text="${stock.id}"></td>
+                        <td th:text="${stock.product}"></td>
+                        <td th:text="${stock.quantity}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        Projeto de compreensão do MVC
+    </footer>
+</body>
+</html>

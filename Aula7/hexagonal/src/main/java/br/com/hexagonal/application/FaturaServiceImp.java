@@ -9,6 +9,8 @@ import br.com.hexagonal.domain.entities.Fatura;
 import br.com.hexagonal.domain.ports.in.FaturaService;
 import br.com.hexagonal.domain.ports.out.messaging.BoletoMessaging;
 import br.com.hexagonal.domain.ports.out.persistence.FaturaRepository;
+import br.com.hexagonal.domain.ports.out.smtp.EmailSmtp;
+import br.com.hexagonal.domain.ports.out.soap.NotaSoap;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,14 +19,22 @@ public class FaturaServiceImp implements FaturaService {
 
     private final FaturaRepository faturaRepository;
     private final BoletoMessaging boletoMessaging;
+    private final NotaSoap notaSoap;
+    private final EmailSmtp emailSmtp;
 
     @Override
     public UUID faturarPedido(Long pedidoId, BigDecimal valor) {
         Fatura fatura = Fatura.criar(pedidoId, valor);
+
         String codigoBarras = boletoMessaging.emitirBoleto(fatura);
         fatura.inserirBoleto(codigoBarras);
-        //TODO: emitir nota
-        //TODO: disparar email com boleto e nota
+
+        String rps = notaSoap.emitirNota(fatura);
+        fatura.inserirRps(rps);
+
+        String hashEmail = emailSmtp.enviarEmail(fatura);
+        fatura.inserirHashEmail(hashEmail);
+
         faturaRepository.salvar(fatura);
         return fatura.getId();
     }

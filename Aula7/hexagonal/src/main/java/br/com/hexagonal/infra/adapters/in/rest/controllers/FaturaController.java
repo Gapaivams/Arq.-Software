@@ -17,11 +17,13 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/fatura")
 @RequiredArgsConstructor
 public class FaturaController {
+
     private final FaturaService faturaService;
 
     @PostMapping
-    public ResponseEntity<FaturaPostResponse> post(@RequestBody FaturaPostRequest faturaPostRequest) {
-        UUID faturaId = faturaService.faturarPedido(faturaPostRequest.pedidoId(), faturaPostRequest.valor());
-        return ResponseEntity.status(201).body(new FaturaPostResponse(faturaId.toString()));
+    public ResponseEntity<FaturaPostResponse> post(@RequestBody FaturaPostRequest request) {
+        UUID faturaId = faturaService.faturarPedido(request.pedidoId(), request.valor());
+        return ResponseEntity.status(201)
+                .body(new FaturaPostResponse(faturaId.toString(), request.pedidoId(), request.valor()));
     }
 }
